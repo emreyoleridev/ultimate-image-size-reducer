@@ -44,7 +44,7 @@ export function ImageStatsList({ stats }: ImageStatsListProps) {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.05, duration: 0.3 }}
-                            className="flex items-center justify-between p-4 rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden relative group"
+                            className="flex items-center justify-between p-4 rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden relative group transition-colors duration-500"
                         >
                             <div className="flex items-center space-x-4 overflow-hidden">
                                 <div className="p-2 bg-primary/10 rounded-lg text-primary shrink-0">

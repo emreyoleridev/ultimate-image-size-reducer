@@ -96,7 +96,7 @@ export default function Home() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-emerald-600/10 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 border-b border-border bg-background/80 backdrop-blur-md">
+      <header className="fixed top-0 w-full z-50 border-b border-border bg-background/80 backdrop-blur-md transition-colors duration-500">
         <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(5,150,105,0.3)] transition-transform">
@@ -129,7 +129,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-8 mb-16 px-4"
         >
-          <div className="inline-flex items-center gap-2 py-1 px-4 bg-emerald-500/5 border border-emerald-500/20 rounded-full">
+          <div className="inline-flex items-center gap-2 py-1 px-4 bg-emerald-500/5 border border-emerald-500/20 rounded-full transition-colors duration-500">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
             <span className="text-[11px] font-black tracking-widest uppercase text-emerald-500">
               100% Secure & Client-Side
@@ -163,7 +163,7 @@ export default function Home() {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
               >
-                <div className="flex items-center justify-between p-4 bg-muted/50 rounded-2xl border mt-8">
+                <div className="flex items-center justify-between p-4 bg-muted/50 rounded-2xl border mt-8 transition-colors duration-500">
                   <div className="space-y-1">
                     <p className="text-sm font-medium">Batch Summary</p>
                     <p className="text-xs text-muted-foreground">
@@ -203,7 +203,7 @@ export default function Home() {
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-32 w-full max-w-5xl mx-auto">
           <div className="flex flex-col items-center text-center space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 transition-colors duration-500">
               <Lock className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-black tracking-tight">Absolute Privacy</h3>
@@ -213,7 +213,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col items-center text-center space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500">
+            <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500 transition-colors duration-500">
               <Zap className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-black tracking-tight">Lightning Fast</h3>
@@ -223,7 +223,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col items-center text-center space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-500">
+            <div className="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-500 transition-colors duration-500">
               <Heart className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-black tracking-tight">Free Forever</h3>
@@ -235,7 +235,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="w-full border-t border-zinc-200 dark:border-white/10 bg-white dark:bg-black py-12">
+      <footer className="w-full border-t border-zinc-200 dark:border-white/10 bg-white dark:bg-black py-12 transition-colors duration-500">
         <div className="container mx-auto px-4 flex flex-col items-center gap-6">
           <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-medium">
             <span>Built with ❤️ by</span>
@@ -268,7 +268,7 @@ export default function Home() {
 
       {/* Floating Theme Toggle */}
       <div className="fixed bottom-6 right-6 z-50">
-        <div className="bg-background/80 backdrop-blur-xl border border-border shadow-lg rounded-full overflow-hidden hover:scale-105 transition-transform duration-200">
+        <div className="bg-background/80 backdrop-blur-xl border border-border shadow-lg rounded-full overflow-hidden hover:scale-105 transition-[transform,background-color,border-color] duration-500">
           <ThemeToggle />
         </div>
       </div>
