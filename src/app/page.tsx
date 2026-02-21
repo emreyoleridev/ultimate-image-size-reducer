@@ -1,65 +1,179 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useCallback } from "react";
+import imageCompression from "browser-image-compression";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+import { Dropzone } from "@/components/ui/dropzone";
+import { ImageStat, ImageStatsList, formatBytes } from "@/components/ui/image-stats";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { Download, Sparkles, Trash2, Github } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
+  const [stats, setStats] = useState<ImageStat[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const processImages = useCallback(async (files: File[]) => {
+    setIsProcessing(true);
+
+    const newStats: ImageStat[] = files.map((file) => ({
+      file,
+      id: Math.random().toString(36).substring(7),
+      originalSize: file.size,
+      status: "pending",
+    }));
+
+    setStats((prev) => [...prev, ...newStats]);
+
+    for (let i = 0; i < newStats.length; i++) {
+      const currentStat = newStats[i];
+
+      setStats((prev) =>
+        prev.map((s) => s.id === currentStat.id ? { ...s, status: "compressing" } : s)
+      );
+
+      try {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+
+        const compressedBlob = await imageCompression(currentStat.file, options);
+
+        setStats((prev) =>
+          prev.map((s) => s.id === currentStat.id
+            ? { ...s, status: "done", compressedSize: compressedBlob.size, compressedBlob }
+            : s
+          )
+        );
+      } catch (error) {
+        console.error("Compression error:", error);
+        setStats((prev) =>
+          prev.map((s) => s.id === currentStat.id ? { ...s, status: "error" } : s)
+        );
+      }
+    }
+
+    setIsProcessing(false);
+  }, []);
+
+  const handleDownloadAll = async () => {
+    const doneStats = stats.filter(s => s.status === "done" && s.compressedBlob);
+    if (doneStats.length === 0) return;
+
+    const zip = new JSZip();
+
+    doneStats.forEach(stat => {
+      // Create a new File from the Blob to preserve the original filename
+      zip.file(stat.file.name, stat.compressedBlob!);
+    });
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, "compressed_images.zip");
+  };
+
+  const clearAll = () => {
+    setStats([]);
+  };
+
+  const totalOriginalSize = stats.reduce((acc, s) => acc + s.originalSize, 0);
+  const totalCompressedSize = stats.reduce((acc, s) => acc + (s.compressedSize || s.originalSize), 0);
+  const isAllDone = stats.length > 0 && stats.every(s => s.status === "done" || s.status === "error");
+  const showSummary = stats.length > 0;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen relative flex flex-col overflow-hidden">
+      {/* Background decoration elements */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/20 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
+
+      {/* Header */}
+      <header className="w-full max-w-5xl mx-auto flex items-center justify-between p-6 z-10">
+        <div className="flex items-center space-x-2 font-bold text-xl tracking-tight">
+          <Sparkles className="w-6 h-6 text-emerald-500" />
+          <span>OptiShrink</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="flex items-center space-x-4">
+          <ThemeToggle />
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 w-full max-w-3xl mx-auto px-6 py-12 flex flex-col items-center justify-start z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-10 space-y-4"
+        >
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium mb-2 border border-emerald-500/20">
+            <Sparkles className="w-4 h-4" />
+            <span>100% Client-Side. Private & Secure.</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-balance">
+            Reduce image size without losing quality.
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-xl mx-auto text-balance">
+            Compress multiple images directly in your browser. Download them all as a organized ZIP file with original names intact.
+          </p>
+        </motion.div>
+
+        <div className="w-full space-y-6">
+          <div className="bg-card/50 backdrop-blur-xl border rounded-3xl p-2 shadow-2xl shadow-emerald-500/5">
+            <Dropzone onFilesSelected={processImages} disabled={isProcessing} />
+          </div>
+
+          <AnimatePresence>
+            {showSummary && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="flex items-center justify-between p-4 bg-muted/50 rounded-2xl border">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">Batch Summary</p>
+                    <p className="text-xs text-muted-foreground">
+                      {stats.length} files • {formatBytes(totalOriginalSize)}
+                      {isAllDone && totalCompressedSize < totalOriginalSize && (
+                        <span> → <strong className="text-emerald-600 dark:text-emerald-400">{formatBytes(totalCompressedSize)}</strong></span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Button
+                      variant="ghost"
+                      onClick={clearAll}
+                      disabled={isProcessing}
+                      className="text-muted-foreground hover:text-red-500"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Clear
+                    </Button>
+                    <Button
+                      onClick={handleDownloadAll}
+                      disabled={!isAllDone || stats.length === 0}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 shadow-lg"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download ZIP
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <ImageStatsList stats={stats} />
         </div>
       </main>
+
+      <footer className="w-full py-6 text-center text-sm text-muted-foreground z-10">
+        <p>Built with Next.js, Tailwind CSS, and Framer Motion.</p>
+      </footer>
     </div>
   );
 }
