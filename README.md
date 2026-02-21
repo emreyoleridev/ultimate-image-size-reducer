@@ -2,8 +2,6 @@
 
 A beautiful, modern, single-page SaaS application built with Next.js and Tailwind CSS that allows users to compress multiple images on the client side and download them in a single ZIP file, preserving the original filenames.
 
-Built by [emre yoleri](https://github.com/emreyoleridev).
-
 ## Features
 
 - **100% Client-Side Private Processing**: Images are never uploaded to any server. Compression happens instantly in your browser.
