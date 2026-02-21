@@ -235,7 +235,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="w-full border-t border-zinc-200 dark:border-white/10 bg-white dark:bg-black py-12 relative z-10">
+      <footer className="w-full border-t border-zinc-200 dark:border-white/10 bg-white dark:bg-black py-12">
         <div className="container mx-auto px-4 flex flex-col items-center gap-6">
           <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 font-medium">
             <span>Built with ❤️ by</span>
