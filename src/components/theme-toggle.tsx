@@ -11,7 +11,7 @@ export function ThemeToggle() {
     return (
         <button
             onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
-            className="relative inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-black/5 hover:text-black dark:hover:bg-white/10 dark:hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background"
+            className="relative cursor-pointer inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-black/5 hover:text-black dark:hover:bg-white dark:hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background"
         >
             <span className="sr-only">Toggle theme</span>
             <div className="relative w-5 h-5 flex items-center justify-center">

@@ -94,9 +94,18 @@ export default function Home() {
       <header className="w-full max-w-5xl mx-auto flex items-center justify-between p-6 z-10">
         <div className="flex items-center space-x-2 font-bold text-xl tracking-tight">
           <Sparkles className="w-6 h-6 text-emerald-500" />
-          <span>OptiShrink</span>
+          <span>Image Size Reducer</span>
         </div>
         <div className="flex items-center space-x-4">
+          <a
+            href="https://github.com/emreyoleridev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <span>Built by emre yoleri</span>
+            <Github className="w-5 h-5 text-[#333] dark:text-white" />
+          </a>
           <ThemeToggle />
         </div>
       </header>
@@ -171,8 +180,16 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="w-full py-6 text-center text-sm text-muted-foreground z-10">
-        <p>Built with Next.js, Tailwind CSS, and Framer Motion.</p>
+      <footer className="w-full py-6 flex flex-col items-center justify-center space-y-2 text-sm text-muted-foreground z-10">
+        <a
+          href="https://github.com/emreyoleridev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center space-x-2 hover:text-foreground transition-colors sm:hidden"
+        >
+          <span>Built by emre yoleri</span>
+          <Github className="w-4 h-4 text-[#333] dark:text-white" />
+        </a>
       </footer>
     </div>
   );
