@@ -97,15 +97,6 @@ export default function Home() {
           <span>Image Size Reducer</span>
         </div>
         <div className="flex items-center space-x-4">
-          <a
-            href="https://github.com/emreyoleridev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <span>Built by emre yoleri</span>
-            <Github className="w-5 h-5 text-[#333] dark:text-white" />
-          </a>
           <ThemeToggle />
         </div>
       </header>
@@ -185,9 +176,9 @@ export default function Home() {
           href="https://github.com/emreyoleridev"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center space-x-2 hover:text-foreground transition-colors sm:hidden"
+          className="flex items-center space-x-2 hover:text-foreground transition-colors"
         >
-          <span>Built by emre yoleri</span>
+          <span>Built by Emre Yoleri</span>
           <Github className="w-4 h-4 text-[#333] dark:text-white" />
         </a>
       </footer>
