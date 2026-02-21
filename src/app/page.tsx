@@ -171,16 +171,18 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="w-full py-6 flex flex-col items-center justify-center space-y-2 text-sm text-muted-foreground z-10">
-        <a
-          href="https://github.com/emreyoleridev"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center space-x-2 hover:text-foreground transition-colors"
-        >
-          <span>Built by Emre Yoleri</span>
-          <Github className="w-4 h-4 text-[#333] dark:text-white" />
-        </a>
+      <footer className="w-full py-10 flex flex-col items-center justify-center space-y-2 text-sm text-muted-foreground z-10">
+        <p>
+          Built by{" "}
+          <a
+            href="https://github.com/emreyoleridev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-foreground transition-all"
+          >
+            Emre Yoleri
+          </a>
+        </p>
       </footer>
     </div>
   );
