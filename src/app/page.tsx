@@ -109,7 +109,7 @@ export default function Home() {
 
           <div className="flex items-center gap-6">
             <a
-              href="https://github.com/emreyoleridev/ultimate-file-converter"
+              href="https://github.com/emreyoleridev/ultimate-image-size-reducer"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
