@@ -8,7 +8,7 @@ import { Dropzone } from "@/components/ui/dropzone";
 import { ImageStat, ImageStatsList, formatBytes } from "@/components/ui/image-stats";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { Download, Sparkles, Trash2, Github, ShieldCheck, Coffee } from "lucide-react";
+import { Download, Sparkles, Trash2, Github, ShieldCheck, Coffee, Lock, Zap, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
@@ -64,6 +64,12 @@ export default function Home() {
     const doneStats = stats.filter(s => s.status === "done" && s.compressedBlob);
     if (doneStats.length === 0) return;
 
+    if (doneStats.length === 1) {
+      const file = doneStats[0];
+      saveAs(file.compressedBlob!, file.file.name);
+      return;
+    }
+
     const zip = new JSZip();
 
     doneStats.forEach(stat => {
@@ -90,55 +96,57 @@ export default function Home() {
       <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
 
       {/* Header */}
-      <header className="w-full flex items-center justify-between px-6 xl:px-8 py-4 z-10 border-b border-border/40 bg-background/50 backdrop-blur-xl sticky top-0">
-        <div className="flex items-center space-x-2 font-black text-xl tracking-tighter">
-          <div className="bg-emerald-500 p-1.5 rounded-lg text-white">
-            <Sparkles className="w-5 h-5" />
+      <header className="w-full flex items-center justify-between px-6 xl:px-12 py-6 z-10 sticky top-0 bg-background/50 backdrop-blur-md">
+        <div className="flex items-center space-x-2 font-black text-2xl md:text-3xl tracking-tighter">
+          <div className="bg-emerald-500 p-1.5 rounded-xl text-white">
+            <Sparkles className="w-6 h-6 md:w-7 md:h-7" />
           </div>
           <span className="text-foreground">
-            Image<span className="text-emerald-500">Reducer</span>
+            ImageSize<span className="text-emerald-500">Reducer</span>
           </span>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center">
           <a
             href="https://github.com/emreyoleridev"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 text-muted-foreground hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground rounded-lg transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             title="GitHub Repository"
           >
-            <Github className="w-5 h-5" />
+            <Github className="w-6 h-6" strokeWidth={1.5} />
           </a>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-16 flex flex-col items-center justify-start z-10">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 md:py-24 flex flex-col items-center justify-start z-10">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12 space-y-4 flex flex-col items-center w-full"
+          className="text-center mb-16 space-y-6 flex flex-col items-center w-full"
         >
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold tracking-widest mb-4 border border-emerald-200 dark:border-emerald-500/20 shadow-sm uppercase">
-            <ShieldCheck className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-xs font-bold tracking-[0.2em] mb-4 border border-emerald-200 dark:border-emerald-500/20 uppercase">
+            <ShieldCheck className="w-4 h-4" />
             <span>100% SECURE & CLIENT-SIDE</span>
           </div>
 
-          <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-balance leading-[1.1] mb-2">
+          <h1 className="text-6xl sm:text-[5.5rem] font-black tracking-tighter text-balance leading-[1.05] mb-2">
             The Ultimate
             <br />
-            <span className="text-emerald-500 dark:text-emerald-400">
+            <span className="text-emerald-500">
               Free Image Reducer
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-muted-foreground font-medium max-w-2xl mx-auto text-balance mt-4">
-            Compress, optimize, and manage your images directly from your browser. Zero uploads, zero subscriptions, maximum privacy.
+          <p className="text-lg sm:text-xl text-muted-foreground font-medium max-w-2xl mx-auto text-balance mt-6">
+            Compress, optimize, and manage your images directly from your browser.
+            <br className="hidden sm:block" />
+            Zero uploads, zero subscriptions, maximum privacy.
           </p>
         </motion.div>
 
-        <div className="w-full max-w-3xl space-y-6">
-          <div className="bg-card/50 backdrop-blur-xl border rounded-[2rem] p-2 shadow-2xl shadow-emerald-500/5">
+        <div className="w-full max-w-4xl space-y-8">
+          <div className="bg-card/40 backdrop-blur-xl border border-border/50 rounded-[2rem] p-2 sm:p-4 shadow-2xl">
             <Dropzone onFilesSelected={processImages} disabled={isProcessing} />
           </div>
 
@@ -176,7 +184,7 @@ export default function Home() {
                       className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 shadow-lg"
                     >
                       <Download className="w-4 h-4 mr-2" />
-                      Download ZIP
+                      {stats.length === 1 ? "Download" : "Download All (ZIP)"}
                     </Button>
                   </div>
                 </div>
@@ -185,6 +193,39 @@ export default function Home() {
           </AnimatePresence>
 
           <ImageStatsList stats={stats} />
+        </div>
+
+        {/* Features Section */}
+        <div className="w-full max-w-5xl mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 text-center items-start">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/5 border border-emerald-500/20 flex items-center justify-center mb-2">
+              <Lock className="w-7 h-7 text-emerald-500" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-xl font-bold tracking-tight">Absolute Privacy</h3>
+            <p className="text-muted-foreground leading-relaxed text-balance text-sm sm:text-base">
+              Files never leave your device. Everything is processed locally in your browser.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-orange-500/10 dark:bg-orange-500/5 border border-orange-500/20 flex items-center justify-center mb-2">
+              <Zap className="w-7 h-7 text-orange-500 dark:text-orange-400" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-xl font-bold tracking-tight">Lightning Fast</h3>
+            <p className="text-muted-foreground leading-relaxed text-balance text-sm sm:text-base">
+              No waiting for servers to process or download. Compress files instantly.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-teal-500/10 dark:bg-teal-500/5 border border-teal-500/20 flex items-center justify-center mb-2">
+              <Heart className="w-7 h-7 text-teal-500 dark:text-teal-400" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-xl font-bold tracking-tight">Free Forever</h3>
+            <p className="text-muted-foreground leading-relaxed text-balance text-sm sm:text-base">
+              No premium tiers, no hidden costs, no watermarks. Every feature is entirely free.
+            </p>
+          </div>
         </div>
       </main>
 
@@ -218,7 +259,7 @@ export default function Home() {
 
       {/* Floating Theme Toggle */}
       <div className="fixed bottom-6 right-6 z-50">
-        <div className="bg-background border border-border/50 shadow-lg rounded-full overflow-hidden [&>button]:rounded-full [&>button]:p-3">
+        <div className="bg-background/80 backdrop-blur-xl border border-border shadow-lg rounded-full overflow-hidden hover:scale-105 transition-transform duration-200">
           <ThemeToggle />
         </div>
       </div>
