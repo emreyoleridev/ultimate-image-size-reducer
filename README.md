@@ -31,3 +31,15 @@ A beautiful, modern, single-page SaaS application built with Next.js and Tailwin
    npm run dev
    ```
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 👤 Author
+
+Built with ❤️ by **Emre Yoleri**
+-   [GitHub](https://github.com/emreyoleridev)
+-   [Buy Me A Coffee](https://buymeacoffee.com/emreyoleridev)
+
+---
+*Disclaimer: This tool is intended for legal and professional use only. Ensure you have the rights to the documents you are processing.*
+
+## License
+MIT
