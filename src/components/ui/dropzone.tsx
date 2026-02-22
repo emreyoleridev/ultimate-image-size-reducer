@@ -64,11 +64,7 @@ export function Dropzone({ onFilesSelected, disabled }: DropzoneProps) {
     );
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-        >
+        <div>
             <div
                 className={cn(
                     "relative flex flex-col items-center justify-center w-full h-72 border-2 border-dashed rounded-2xl transition-all duration-300 overflow-hidden",
@@ -112,6 +108,6 @@ export function Dropzone({ onFilesSelected, disabled }: DropzoneProps) {
                     </p>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }

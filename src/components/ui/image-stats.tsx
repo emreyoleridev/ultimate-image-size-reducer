@@ -39,11 +39,8 @@ export function ImageStatsList({ stats }: ImageStatsListProps) {
                         : 0;
 
                     return (
-                        <motion.div
+                        <div
                             key={stat.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.05, duration: 0.3 }}
                             className="flex items-center justify-between p-4 rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden relative group transition-colors duration-500"
                         >
                             <div className="flex items-center space-x-4 overflow-hidden">
@@ -91,7 +88,7 @@ export function ImageStatsList({ stats }: ImageStatsListProps) {
                                     className="absolute bottom-0 left-0 h-0.5 bg-emerald-500/50"
                                 />
                             )}
-                        </motion.div>
+                        </div>
                     );
                 })}
             </div>

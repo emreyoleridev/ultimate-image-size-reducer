@@ -124,9 +124,7 @@ export default function Home() {
       {/* Main Content */}
       <div className="max-w-[1200px] mx-auto pt-32 pb-24 px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
         {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="text-center space-y-8 mb-16 px-4"
         >
           <div className="inline-flex items-center gap-2 py-1 px-4 bg-emerald-500/5 border border-emerald-500/20 rounded-full transition-colors duration-500">
@@ -148,7 +146,7 @@ export default function Home() {
             Compress, optimize, and manage your images directly from your browser.
             Zero uploads, zero subscriptions, maximum privacy.
           </p>
-        </motion.div>
+        </div>
 
         <div className="w-full max-w-[1100px] mx-auto font-sans relative z-10 px-4 space-y-8">
           <div className="bg-card/50 backdrop-blur-sm rounded-[2rem] border border-border p-4 sm:p-6 shadow-2xl transition-colors duration-500 relative z-10">
